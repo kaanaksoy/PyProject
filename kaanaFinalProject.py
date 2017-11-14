@@ -15,10 +15,15 @@ import urllib2 as urllib
 import cStringIO
 import math
 
+
+#\\\\\\\\\\\\\          Helper Functions are defined here        ///////////////////
+
 #This function takes the tile paramaters as inputs and fetches the appropriate tile from the web
 def getMarineData(APIkey, Coordinates):
-    ageOfData = 1440
 
+    ageOfData = 1440 #This value is the age of the data recieved in minutes, for more accuracy, it can be reduced to a minimum of 10
+
+    #Here the Coordinates Tuple is put in order of size, in order to find the min and max coordinates
     if Coordinates[0][0] < Coordinates[1][0]:
         lon_min = Coordinates[0][0]
         lon_max = Coordinates[1][0]
@@ -33,25 +38,31 @@ def getMarineData(APIkey, Coordinates):
         lat_min = Coordinates[1][1]
         lat_max = Coordinates[0][1]
 
-    request = 'http://services.marinetraffic.com/api/exportvessels/' + 'v' + ':8/' + APIkey + '/MINLAT:' + str(lat_min) + '/MAXLAT:' + str(lat_max) + '/MINLON:' + str(lon_min) + '/MAXLON:' + str(lon_max) + '/timespan' + ':' + str(ageOfData) + '/protocol:json'
-    print request
-    mTrafficData = urllib.urlopen(request)
+    #The url for the request is formed
+    url = 'http://services.marinetraffic.com/api/exportvessels/'
+    request = url + 'v' + ':8/' + APIkey + '/MINLAT:' + str(lat_min) + '/MAXLAT:' + str(lat_max) + '/MINLON:' + str(lon_min) + '/MAXLON:' + str(lon_max) + '/timespan' + ':' + str(ageOfData) + '/protocol:json'
+    #print request #Used for debuggung purposes
+    mTrafficData = urllib.urlopen(request) #Request marine data
     data = mTrafficData.read()
-    print data
+
     data = [["304010417","9015462","359396","-97.67599","28.69228","74","329","327","0","2017-05-19T09:39:57","TER","54"], ["215819000","9034731","150559","-94.15851","29.53593","122","162","157","0","2017-05-19T09:44:27","TER","28"], ["255925000","9184433","300518","-97.38166","26.56094","79","316","311","0","2017-05-19T09:43:53","TER","52"]]
+    #data set is replaced by an example set for debugging
     return data
 
-def cleanUpMarineData(data, parent):
-    boats = {}
+
+#This function gets the raw data and creates instances of the boat class with the appropriate parameters
+def createBoats(data, parent):
+    boats = {} #boats are stored in a dictionary
     for i in range(len(data)):
         boats['boat' + str(i)] = Boat(boatData=data[i], parent=parent)
     return boats
+
 
 def fromLatLon2Cartesian((Lat1,Lon1),(Lat2,Lon2)):
     centerCoordinate = (((Lat1 - Lat2) / 2),((Lon1 - Lon2) / 2))
     print centerCoordinate
 
-
+#This function gets the weather tile from the website
 def getTile((xtile,ytile,zoom)):
     #creates the proper URL for the desired tile
     weatherOverlayURL = "https://weather.openportguide.de/tiles/actual/wind_stream/5/" + str(zoom) + "/" + str(xtile) + "/" + str(ytile) + ".png"
@@ -68,7 +79,7 @@ def convertToTiles((lat, lon), zoom):
     ytile = int((1.0 - math.log(math.tan(latrad) + (1 / math.cos(latrad))) / math.pi) / 2.0 * n)
     return (xtile,ytile,zoom)
 
-class Boat():
+class Boat(): #This is the Boat class, its instances are displayed on the nautical chart.
     def __init__(self, parent, boatData ):
         self.chartCenter = parent.center
         self.parent = parent
@@ -107,6 +118,7 @@ class impWnd(): #This class is creates an import window for the user to enter a 
         self.textBox = Tkinter.Entry(self.window) #entry widget where the user types
         self.enterButton = Tkinter.Button(self.window, text='Enter', command=self.imp)
         self.pathVar = '' #variable where the path for the file is stored
+        self.window.title('  SailNav - Import')
 
         #here all the widgets in the class are packed
         self.label.grid(row=0, column=0,columnspan=3, padx=4, pady=4)
@@ -117,8 +129,7 @@ class impWnd(): #This class is creates an import window for the user to enter a 
         #starts the main loop
         self.window.mainloop()
 
-    #this function is called by the enter button in the import window,
-    #and it gets the path that was entered by the user
+    #this function is called by the enter button in the import window, and it gets the path that was entered by the user
     def imp(self):
         parent = self.parent
         self.pathVar = self.textBox.get() #stores the path in self.pathVar
@@ -131,16 +142,16 @@ class impWnd(): #This class is creates an import window for the user to enter a 
         parent.canvas.config(scrollregion=(0,0,parent.chartSize[0], parent.chartSize[1]))
         parent.window.update()
         parent.window.update_idletasks()
-        #chart = Image.open(self.pathVar)
-        #chart.show()
         self.window.destroy()
 
-class xyWnd(): #This class is creates an import window for the user to enter a path to import a file
+class xyWnd(): #This class is creates an window for the user to enter a information regarding the chart they are looking at
     def __init__(self, parent):
         self.parent = parent
         self.topLeft = ''
         self.bottomRight = ''
         self.coordinates = ''
+        self.window.title('  SailNav - Location')
+
         self.window = Tkinter.Tk() #creates the tkinter window
         self.mainLabel = Tkinter.Label(self.window, text='Please enter the corner coordinates of your chart')
         self.topLeftLabel = Tkinter.Label(self.window, text='Top Left')
@@ -149,7 +160,7 @@ class xyWnd(): #This class is creates an import window for the user to enter a p
         self.bottomRightEntry = Tkinter.Entry(self.window) #entry widget where the user types
         self.enterButton = Tkinter.Button(self.window, text='Enter', command=self.store)
 
-        #here all the widgets in the class are packed
+        #Here all the widgets in the class are packed
         self.mainLabel.grid(row=0, column=0,columnspan=3, padx=4, pady=4)
         self.topLeftLabel.grid(row=1, column=0)
         self.topLeftEntry.grid(row=1, column=1,columnspan=1, sticky ='WE')
@@ -170,15 +181,16 @@ class xyWnd(): #This class is creates an import window for the user to enter a p
         self.bottomRight = self.bottomRightEntry.get() #stores the corner in self.bottomRight
 
         self.coordintes = (self.topLeftEntry.get(),self.bottomRightEntry.get())
-        print self.coordinates
+        #print self.coordinates
 
         self.window.destroy()
 
+#This class defines the main window the user uses to work with the program, all commands could be used from here
 class mainWnd():
     def __init__(self):
-        self.chartSize = (900,730)
-        self.coordinates = ((-98,30),(-94,26.5))
-        self.center = (-96, 28.25)
+        self.chartSize = #(900,730)
+        self.coordinates = #((-98,30),(-94,26.5))
+        self.center = #(-96, 28.25)
         self.chartScale = None
         self.image = None
         self.chart = None
@@ -195,25 +207,29 @@ class mainWnd():
         self.sideBarBox2 = Tkinter.Frame(self.sideBarFrame,height=150, width=120, bd=2)
         self.mapFrame = Tkinter.Frame(self.window,height=735, width=900, bg='Red')
 
-        #Defining the widgets in the frames
+        #\\\\    Defining the widgets in the frames    ////
+
         self.menuBar = Tkinter.Menu(self.window) #Creates the Menubar
 
-        self.fileMenu = Tkinter.Menu(self.menuBar, tearoff=0) #Creates the File dropdown
-        self.fileMenu.add_command(label='Import', command=self.importChart) #fills the dropdown with commands
-        self.fileMenu.add_command(label='Save')
-        self.fileMenu.add_command(label='Coordinates', command = self.getCoordinates)
+        #File button on the menubar
+        self.fileDropdown = Tkinter.Menu(self.menuBar, tearoff=0) #Creates the File dropdown
+        self.fileDropdown.add_command(label='Import', command=self.importChart) #fills the dropdown with commands
+        self.fileDropdown.add_command(label='Save')
+        self.fileDropdown.add_command(label='Coordinates', command = self.getCoordinates)
+        self.menuBar.add_cascade(label='File', menu=self.fileDropdown) #makes the file menu cascade
 
-        self.toggleMenu = Tkinter.Menu(self.menuBar, tearoff=0) #Creates the viewing options menu
-        self.toggleMenu.add_command(label='Boats', command=self.getBoats)
-        self.toggleMenu.add_checkbutton(label='Weather', command=self.getWeather)
-        self.toggleMenu.add_checkbutton(label='Waves')
-        self.toggleMenu.add_checkbutton(label='Plotted Course')
 
-        self.menuBar.add_cascade(label='File', menu=self.fileMenu) #makes the file menu cascade
-        self.menuBar.add_cascade(label='Toggle', menu=self.toggleMenu) #makes the toggleMenu
+        #Toggle button on the menubar
+        self.toggleDropdown = Tkinter.Menu(self.menuBar, tearoff=0) #Creates the viewing options menu
+        self.toggleDropdown.add_command(label='Boats', command=self.getBoats)
+        self.toggleDropdown.add_checkbutton(label='Weather', command=self.getWeather)
+        self.toggleDropdown.add_checkbutton(label='Waves')
+        self.toggleDropdown.add_checkbutton(label='Plotted Course')
+        self.menuBar.add_cascade(label='Toggle', menu=self.toggleDropdown) #makes the toggleDropdown
+
         self.window.config(menu=self.menuBar) #displays the menubar
 
-
+        # \\\\   Defining widgets in the sidebar   ////
         self.weatherCoordinateLabel = Tkinter.Label(self.sideBarBox1, text='Enter the coordintes \n of the top left corner \n of the chart')
         self.lonLabel = Tkinter.Label(self.sideBarBox1, text='Longitude')
         self.lonEntry = Tkinter.Entry(self.sideBarBox1)
@@ -221,18 +237,21 @@ class mainWnd():
         self.latEntry = Tkinter.Entry(self.sideBarBox1)
         self.enterCoordinates = Tkinter.Button(self.sideBarBox1, text='Enter', command=self.getWeather)
 
+        #\\\\    Defining the zoom functionality    ////
         self.zoominButton = Tkinter.Button(self.sideBarBox2, text='Zoom In', command=self.zoomin)
         self.zoomoutButton = Tkinter.Button(self.sideBarBox2, text='Zoom Out', command=self.zoomout)
 
-        #here we pack the two frames
+        #\\\\    PACKING OF THE SIDEBAR AND THE CHART DISPLAY    ////
         self.sideBarFrame.grid(row=1, column=4, sticky='N', padx=0, pady=0)
         self.sideBarBox1.grid(row=0,column=0,sticky='N')
         self.sideBarBox2.grid(row=1,column=0,sticky='N')
         self.mapFrame.grid(row=1, column=0, sticky='NSEW', padx=0, pady=0)
 
+        #\\\\    PACKING OF THE ZOOM FUNCTIONALITY   ////
         self.zoominButton.grid(row=0, column=0, sticky='WE')
         self.zoomoutButton.grid(row=1, column=0, sticky='WE')
 
+        #\\\\    PACKING OF THE COORDINATE ENTRY FOR WEATHER    ////
         self.weatherCoordinateLabel.grid(row=0,column=0, columnspan=2)
         self.lonLabel.grid(row=1, column=0)
         self.lonEntry.grid(row=1, column=1)
@@ -240,8 +259,11 @@ class mainWnd():
         self.latEntry.grid(row=2, column=1)
         self.enterCoordinates.grid(row=3,column=0, columnspan=2, sticky='WE')
 
+        #\\\\    PACKING OF THE SCROLL BARS     ////
         self.verticalScroll = Tkinter.Scrollbar(self.mapFrame)
         self.horizontalScroll = Tkinter.Scrollbar(self.mapFrame)
+
+        #\\\\    THE CANVAS IS CONFIGURED   ////
         self.canvas = Tkinter.Canvas(self.mapFrame, bg='Pink', yscrollcommand=self.verticalScroll.set, xscrollcommand=self.horizontalScroll.set, width=self.chartSize[0],height=self.chartSize[1])
         self.canvas.config(scrollregion=(0,0,self.chartSize[0],self.chartSize[1]))
 
@@ -253,13 +275,16 @@ class mainWnd():
         self.horizontalScroll.config(command=self.canvas.xview, orient='horizontal')
 
         self.window.mainloop()
-    def zoomin(self):
+
+    #\\\\    Definition of class functions    ////
+    def zoomin(self): #Pretty self explanatory but this is the zoom in function
         self.canvas.scale('all', 1.5, 1.1, 1, 1)
         self.canvas.configure(scrollregion = self.canvas.bbox('all'))
-    def zoomout(self):
+    def zoomout(self): # Zoom out function
         self.canvas.scale('all', 0.9, 0.9, 1, 1)
         self.canvas.configure(scrollregion = self.canvas.bbox('all'))
-    def findChartScale(self):
+
+    def findChartScale(self): #This function is used to calculate the chart scale in order to lay out the boats
         if self.coordinates[0][0] < self.coordinates[1][0]:
             lon_min = self.coordinates[0][0]
             lon_max = self.coordinates[1][0]
@@ -276,17 +301,20 @@ class mainWnd():
 
         self.chartScale = (((1000/(lon_max - lon_min)) + (1000/(lat_max - lat_min))) / 2)
 
-
+    # This function creates an instance of the xyWnd class which is used to get the coordinate information of the chart
     def getCoordinates(self):
         coordinateWindow = xyWnd(self)
 
+    #This function finds the centerpoint of the chart
     def fromLatLon2Cartesian(self, ((Lat1,Lon1),(Lat2,Lon2))):
         centerCoordinate = (((Lat1 + Lat2) / 2),((Lon1 + Lon2) / 2))
         self.center = centerCoordinate
 
+    #This function imports the chart
     def importChart(self):
         importWindow = impWnd(self)
 
+    #This function gets weather information of the area displayed in the chart
     def getWeather(self):
         zoom = 5 #seems to work best with nautical charts
         Coordinates = (float(self.latEntry.get()),float(self.lonEntry.get()))
@@ -294,26 +322,23 @@ class mainWnd():
         chartSize = self.chartPIL.size #gets the size of the chart to calcualte the amount of resizing she needs
         weatherOverlay = weatherOverlay.resize(chartSize) #resizez the wather Overlay
 
-
         self.chartPIL.paste(weatherOverlay, (0, 0), weatherOverlay) #merges the overlay with the original image
-        self.updatedChart = ImageTk.PhotoImage(self.chartPIL)
-        self.canvas.delete('all')
-        self.canvas.create_image(0,0, image = self.updatedChart, anchor = 'nw')
-        self.window.update()
+        self.updatedChart = ImageTk.PhotoImage(self.chartPIL) #Passes the image created by PIL to Tkinter for display
+        self.canvas.delete('all') #Clears the canvas
+        self.canvas.create_image(0,0, image = self.updatedChart, anchor = 'nw') #Displays the new chart image on the canvas
+        self.window.update() #updates the windows
         self.window.update_idletasks()
 
+    #This function is used to get boat information
     def getBoats(self):
-        self.findChartScale()
-        boatdata = getMarineData(self.APIkey, self.coordinates)
-        boatDict = cleanUpMarineData(boatdata, parent=self)
-        for i in boatDict.keys():
+        self.findChartScale() #Finds the scale of the chart
+        boatdata = getMarineData(self.APIkey, self.coordinates) #Gets the boat data
+        boatDict = createBoats(boatdata, parent=self) #created boats and stores them in a dictionary
+
+        for i in boatDict.keys(): #Calls the determineRelativeLocation function of the boat class to find the location of the boats realtive to the chart
             boatDict[i].determineRelativeLocation(Center=boatDict[i].chartCenter,Lat=boatDict[i].LAT, Lon=boatDict[i].LON)
-        for i in boatDict.keys():
+        for i in boatDict.keys(): #calls the draw function of the boat class to draw the boats on the canvas
             boatDict[i].draw()
-            print i, 'drawn'
+            #print i, 'drawn'
 
-mainWindow = mainWnd()
-
-
-#chart = Image.open('C:\Users\kaana\Desktop\Python Final Project\Example1.png')
-#chart.show()
+mainWindow = mainWnd() #Run the whole thing
