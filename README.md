@@ -25,7 +25,11 @@
       #File
           # File->save
           # File->import
-          # File-> Change Coordinates
+          # File-> Quit
+
+      #EDIT
+          # Edit-> Change Coordinates
+
 
       #DISPLAY
           # Display-> boats
