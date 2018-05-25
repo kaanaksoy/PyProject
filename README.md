@@ -48,6 +48,7 @@
       #Import
           #import file and ask for coordinates
 
+  #Perhaps remove borders from an image
 #Modification History
   (main.py):
   Start                    End
@@ -60,4 +61,10 @@
   Nov 25 2017 15:00        Nov 26 2017 08:30
   Nov 26 2017 19:00        Nov 27 2017 02:00
   Nov 27 2017 09:30        Nov 27 2017 14:10
-  Apr 28 2018 17:00        Apr 28 2018
+  Apr 28 2018 17:00        Apr 28 2018 24:00
+  Apr 30 2018 17:00        Apr 30 2018 24:00
+  May 15 2018 18:00        May 15 2018 20:00
+  May 19 2018 15:00        May 19 2018 17:00
+  May 21 2018 13:00        May 21 2018 17:30
+  May 24 2018 16:07        May 24 2018 21:50
+  May 25 2018 14:00        May 25 2018 19:00

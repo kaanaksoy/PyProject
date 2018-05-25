@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>904</width>
+    <height>1149</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>N-nav</string>
+  </property>
+  <widget class="QWidget" name="central_widget">
+   <layout class="QHBoxLayout" name="central_widget_layout">
+    <item>
+     <widget class="QSplitter" name="mapcontr_splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="map_view_widget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QGridLayout" name="map_view_widget_layout">
+        <item row="0" column="0">
+         <widget class="QGraphicsView" name="map_view"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="control_panel">
+        <item>
+         <widget class="QLabel" name="nnav_label">
+          <property name="text">
+           <string>N-nav</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="spacer_line_top">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="control_tabs">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="toggle_tab">
+           <attribute name="title">
+            <string>Toggles</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="toggles_layout">
+            <item>
+             <layout class="QVBoxLayout" name="toggles">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignTop">
+               <widget class="QRadioButton" name="toggl_course">
+                <property name="text">
+                 <string>Course</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QRadioButton" name="toggl_traff">
+                <property name="text">
+                 <string>Traffic</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QRadioButton" name="toggl_weather">
+                <property name="text">
+                 <string>Weather</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QRadioButton" name="toggl_waves">
+                <property name="text">
+                 <string>Waves</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="plot_tab">
+           <attribute name="title">
+            <string>Plot</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="plot_tab_layout">
+            <item>
+             <widget class="QPushButton" name="plot_start_btn">
+              <property name="text">
+               <string>Plot Start</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="plot_finish_btn">
+              <property name="text">
+               <string>Plot Finish</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QFormLayout" name="speed_output_form_layout">
+              <property name="fieldGrowthPolicy">
+               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="elot_label">
+                <property name="text">
+                 <string>Speed of travel (kn)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QDoubleSpinBox" name="elot_input"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="output_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                  <horstretch>10</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Output</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::AutoText</enum>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="Line" name="output_line">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="CtS_label">
+                <property name="text">
+                 <string>Course to Steer: </string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QFrame" name="CtS_output_fr">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="cts_output_fr_layout">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="CtS_output_label">
+                   <property name="text">
+                    <string>CtS</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="calculate_btn">
+              <property name="text">
+               <string>Calculate</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+           <zorder>plot_start_btn</zorder>
+           <zorder>plot_finish_btn</zorder>
+           <zorder>calculate_btn</zorder>
+           <zorder></zorder>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="spacer_line_bottom">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoom_in_btn">
+          <property name="text">
+           <string>Zoom In</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoom_out_btn">
+          <property name="text">
+           <string>Zoom Out</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="control_panel_bottom_spacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>1000</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menu_bar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>904</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="file_menu">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="save_action"/>
+    <addaction name="saveAs_action"/>
+    <addaction name="import_action"/>
+    <addaction name="separator"/>
+    <addaction name="quit_action"/>
+    <addaction name="preferences_action"/>
+   </widget>
+   <widget class="QMenu" name="edit_menu">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="corner_coors_input_action"/>
+   </widget>
+   <widget class="QMenu" name="import_menu">
+    <property name="title">
+     <string>Import</string>
+    </property>
+    <addaction name="import_boats_action"/>
+    <addaction name="import_weather_action"/>
+   </widget>
+   <addaction name="file_menu"/>
+   <addaction name="edit_menu"/>
+   <addaction name="import_menu"/>
+  </widget>
+  <widget class="QStatusBar" name="status_bar"/>
+  <action name="save_action">
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="saveAs_action">
+   <property name="text">
+    <string>Save As...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="import_action">
+   <property name="text">
+    <string>Import</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="quit_action">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="import_boats_action">
+   <property name="text">
+    <string>Boats</string>
+   </property>
+  </action>
+  <action name="import_weather_action">
+   <property name="text">
+    <string>Weather</string>
+   </property>
+  </action>
+  <action name="import_temps_action">
+   <property name="text">
+    <string>Temprature</string>
+   </property>
+  </action>
+  <action name="imp_waves_action">
+   <property name="text">
+    <string>Waves</string>
+   </property>
+  </action>
+  <action name="actionToggle_Course">
+   <property name="text">
+    <string>Toggle Course</string>
+   </property>
+  </action>
+  <action name="actionToggle_Weather">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ToggleWeather</string>
+   </property>
+  </action>
+  <action name="actionToggle_Waves">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toggle Waves</string>
+   </property>
+  </action>
+  <action name="actionToggle_Boats">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toggle Boats</string>
+   </property>
+  </action>
+  <action name="actionToggle_Toolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>View/Hide Toolbar</string>
+   </property>
+  </action>
+  <action name="actionToggle_Temprature">
+   <property name="text">
+    <string>Toggle Temprature</string>
+   </property>
+  </action>
+  <action name="preferences_action">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="corner_coors_input_action">
+   <property name="text">
+    <string>Corner Coordinates</string>
+   </property>
+  </action>
+  <action name="actionPlot_Course">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Plot Course</string>
+   </property>
+   <property name="toolTip">
+    <string>plot course</string>
+   </property>
+  </action>
+  <action name="actionZoom_in">
+   <property name="text">
+    <string>zoom_in</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>zoom_in_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>actionZoom_in</receiver>
+   <slot>hover()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>574</x>
+     <y>453</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

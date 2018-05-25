@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>corner_coors_dialog</class>
+ <widget class="QDialog" name="corner_coors_dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>744</width>
+    <height>244</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>744</width>
+    <height>244</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Enter Corner Coordinates</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QLabel" name="title_label">
+     <property name="text">
+      <string>Please enter the corner coordinates of you chart</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="title_seperator_line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="input_grid">
+     <item row="0" column="1">
+      <widget class="QLabel" name="lat_label">
+       <property name="text">
+        <string>Latitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="lon_label">
+       <property name="text">
+        <string>Longitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="top_left_label">
+       <property name="text">
+        <string>Top Left</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="top_left_lat_input"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="btm_right_label">
+       <property name="text">
+        <string>Bottom Right</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="top_left_lon_input"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="btm_right_lat_input"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="btm_right_lon_input"/>
+     </item>
+    </layout>
+   </item>
+   <item alignment="Qt::AlignBottom">
+    <widget class="QDialogButtonBox" name="cancelok_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>cancelok_box</sender>
+   <signal>accepted()</signal>
+   <receiver>corner_coors_dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelok_box</sender>
+   <signal>rejected()</signal>
+   <receiver>corner_coors_dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
