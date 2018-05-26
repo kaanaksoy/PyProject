@@ -2,10 +2,14 @@ import sys
 import numpy as np
 from PyQt4 import QtCore, QtGui
 
-# import pyuic generated user interface file
+# Importing Ui files
 from UI_elems.ui_mainwindow import Ui_MainWindow
 from UI_elems.corner_coors_dialog import Ui_corner_coors_dialog
+from UI_elems.top_left_click_dialog import Ui_top_left_dialog
+from UI_elems.btm_right_click_dialog import Ui_btm_right_dialog
+# Importing image cropping script
 from img_crop.img_cropper import crop_img
+# Importing image conversion script
 from assets.toQImage import toQImage
 
 class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
@@ -63,6 +67,21 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.corner_coors_dialog_ui.setupUi(self.corner_coors_dialog)
         self.corner_coors_dialog.show()
         return
+
+    def open_top_left_click_popup(self):
+        self.top_left_dialog = QtGui.QDialog()
+        self.top_left_dialog_ui = Ui_top_left_dialog()
+        self.top_left_dialog_ui.setupUi(self.top_left_dialog)
+        self.top_left_dialog.show()
+        return
+
+    def open_btm_right_click_popup(self):
+        self.btm_right_dialog = QtGui.QDialog()
+        self.btm_right_dialog_ui = Ui_btm_right_dialog()
+        self.btm_right_dialog_ui.setupUi(self.btm_right_dialog)
+        self.btm_right_dialog.show()
+        return
+
 
     def show_boats(self):
         if self.toggl_traff.isChecked():

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>btm_right_dialog</class>
+ <widget class="QDialog" name="btm_right_dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>774</width>
+    <height>448</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Click Please</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="btm_right_dialog_layout">
+     <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+      <widget class="QLabel" name="info_text">
+       <property name="text">
+        <string>Click on the bottom right corner of the chart</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="btm_right_img">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../Nnav/resources/click_on_corners_dialog_resources.qrc">:/images/btm_right.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="margin">
+        <number>5</number>
+       </property>
+       <property name="indent">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="cancelok_btn">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../Nnav/resources/click_on_corners_dialog_resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>cancelok_btn</sender>
+   <signal>accepted()</signal>
+   <receiver>btm_right_dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelok_btn</sender>
+   <signal>rejected()</signal>
+   <receiver>btm_right_dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

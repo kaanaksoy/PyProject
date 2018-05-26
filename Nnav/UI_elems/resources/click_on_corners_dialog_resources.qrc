@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="images">
+    <file>btm_right.png</file>
+    <file>top_left.png</file>
+  </qresource>
+</RCC>
