@@ -57,8 +57,7 @@ def find_biggestbbox(sorted_squares_arr, height, width):
     poss_bbox_arr = []
     for i in range(len(sorted_squares_arr)):
         poss_bbox_arr.append(find_area(find_minmax(sorted_squares_arr[i])))
-    biggest_bbox = comp_bboxes(poss_bbox_arr, height, width)
-    return biggest_bbox
+    return comp_bboxes(poss_bbox_arr, height, width)
 
 
 def crop_img(filename):
